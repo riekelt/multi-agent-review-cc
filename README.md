@@ -1,52 +1,70 @@
-# multi-agent-review-cc
+# multi-agent-review
 
-A Claude Code / Codex skill that panels six independent review agents across three topics before you execute a plan or finish a spec. When model tiers disagree, an opus juror adjudicates. The result is a gated **Blockers / Warnings / Observations** verdict.
+A Claude Code + Codex skill that panels six independent review agents across three topics before you execute a plan or finish a spec. When model tiers disagree, an opus juror adjudicates. The result is a gated **Blockers / Warnings / Observations** verdict.
+
+Designed to work with the [Superpowers](https://github.com/obra/superpowers) workflow:
+**brainstorming → spec → `/multi-agent-review spec` → writing-plans → `/multi-agent-review plan` → subagent-driven-development**
 
 ## Install
 
-### Via plugin manager (Claude Code / Codex)
+### Claude Code — via plugin manager
 
-Add the plugin in your agent settings:
 ```
-https://github.com/riekelt/multi-agent-review-cc
+/plugin marketplace add riekelt/multi-agent-review
+/plugin install multi-agent-review@multi-agent-review
 ```
 
-### Manual (Claude Code)
+### Claude Code — manual
 
 ```bash
-git clone https://github.com/riekelt/multi-agent-review-cc \
-  ~/.claude/plugins/multi-agent-review-cc
+git clone https://github.com/riekelt/multi-agent-review \
+  ~/.claude/plugins/multi-agent-review
 ```
 
-The skill is immediately available as `/multi-agent-review`.
+### Codex
+
+Add to your Codex plugins via the `.codex-plugin/plugin.json` at this repo root.
 
 ## Usage
 
 ```
-/multi-agent-review spec    # fires after brainstorming, before writing-plans
-/multi-agent-review plan    # fires after writing-plans, before subagent-driven-development
+/multi-agent-review spec    # after brainstorming, before writing-plans
+/multi-agent-review plan    # after writing-plans, before subagent-driven-development
 ```
 
-Six agents run in parallel — haiku and sonnet tiers each review **completeness**, **alignment**, and **risk**. If the two tiers disagree on a finding, a single opus juror adjudicates. If they agree, no juror is invoked.
+Six agents run in parallel — haiku and sonnet tiers each review **completeness**, **alignment**, and **risk**. If the two tiers disagree on a finding, a single reasoning-model juror adjudicates. If they agree, no juror is invoked.
 
 The verdict gates the next step:
 - **Blockers** → stops execution, presents to operator (fix + re-run, or override with logged note)
 - **Warnings** → presents to operator (fix or accept and continue)
 - **Clean** → auto-proceeds to next skill
 
+## Superpowers integration
+
+This skill is designed to slot into the [Superpowers](https://github.com/obra/superpowers) / [Superpowers Extended CC](https://github.com/pcvelz/superpowers) workflow:
+
+```
+brainstorming skill
+  → spec written
+  → /multi-agent-review spec          ← this skill
+  → writing-plans skill
+  → /multi-agent-review plan          ← this skill
+  → subagent-driven-development skill
+```
+
+Without Superpowers, invoke it directly before any plan execution.
+
 ## Project-specific rules
 
-Copy `skills/multi-agent-review/project-rules.example.md` to your project root as `project-rules.md` and customise it. The skill injects it into the alignment and risk reviewers as project context. Without it, only generic checks run.
+Copy `skills/multi-agent-review/project-rules.example.md` to your project root as `project-rules.md`. The skill injects it into alignment and risk reviewers. Without it, only generic checks run.
 
 ## Flags
 
 | Flag | Effect |
 |---|---|
-| `--fast` | Haiku-only, skip sonnet tier, skip juror. ⚠ Do not use on plans that touch production-safety paths. |
+| `--fast` | Fast-tier only, skip standard tier, skip juror. ⚠ Do not use on plans that touch production-safety paths. |
 
 ## Panel failure semantics
-
-The skill is designed to fail closed:
 
 | Failure | Behaviour |
 |---|---|
@@ -59,28 +77,24 @@ The skill is designed to fail closed:
 
 ```
 .claude-plugin/
-  plugin.json          Claude Code marketplace metadata
-  marketplace.json     Marketplace listing
+  plugin.json          Claude Code plugin metadata
+  marketplace.json     Claude Code marketplace entry
 
 .codex-plugin/
-  plugin.json          Codex marketplace metadata (includes full interface block)
+  plugin.json          Codex plugin metadata (includes model tier config)
 
-skills/
-  multi-agent-review/
-    SKILL.md                     Coordinator: locates artifact, dispatches agents,
-                                 compares, invokes juror, decision gate
-    completeness-reviewer.md     Agent prompt: TBDs, missing criteria, undefined refs
-    alignment-reviewer.md        Agent prompt: mockup consistency, standing rules, type contracts
-    risk-reviewer.md             Agent prompt: production safety, fail-closed paths, blast radius
-    synthesis-agent.md           Opus juror prompt: rules on contested findings only
-    project-rules.example.md     Template for project-specific standing rules
-
-README.md
+skills/multi-agent-review/
+  SKILL.md                     Coordinator
+  completeness-reviewer.md     Completeness agent prompt
+  alignment-reviewer.md        Alignment agent prompt
+  risk-reviewer.md             Risk agent prompt
+  synthesis-agent.md           Opus juror prompt
+  project-rules.example.md     Project-specific rules template
 ```
 
-## Platform compatibility
+## Model tiers
 
-The skill content (SKILL.md + companions) is plain markdown describing intent — it works on both Claude Code and Codex. The `.claude-plugin/` and `.codex-plugin/` directories carry platform-specific discovery metadata; the skill logic itself is identical.
+Configured per platform in `plugin.json`. Claude Code defaults: `haiku` / `sonnet` / `opus`. Codex defaults: `gpt-5.4-mini` / `gpt-5.4` / `gpt-5.5`.
 
 ## License
 

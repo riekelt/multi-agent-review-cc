@@ -1,14 +1,14 @@
 {
-  "name": "multi-agent-review-cc",
+  "name": "multi-agent-review",
   "description": "Multi-model consensus review for specs and plans — panels haiku + sonnet tiers per topic, opus juror on disagreements, fail-closed verdict gate",
   "version": "1.0.0",
   "author": {
     "name": "riekelt",
-    "email": "riekelt@riekelt.com",
+    "email": "r@kapitein.nl",
     "url": "https://github.com/riekelt"
   },
-  "homepage": "https://github.com/riekelt/multi-agent-review-cc",
-  "repository": "https://github.com/riekelt/multi-agent-review-cc",
+  "homepage": "https://github.com/riekelt/multi-agent-review",
+  "repository": "https://github.com/riekelt/multi-agent-review",
   "license": "MIT",
   "keywords": [
     "review",
@@ -17,13 +17,7 @@
     "spec-review",
     "plan-review",
     "quality-gate",
-    "claude-code",
     "pre-execution"
   ],
-  "skills": "./skills/",
-  "models": {
-    "fast": "haiku",
-    "standard": "sonnet",
-    "reasoning": "opus"
-  }
+  "skills": "./skills/"
 }

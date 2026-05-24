@@ -1,14 +1,14 @@
 {
-  "name": "multi-agent-review-cc",
+  "name": "multi-agent-review",
   "version": "1.0.0",
   "description": "Multi-model consensus review for specs and plans — panels haiku + sonnet tiers per topic, opus juror on disagreements, fail-closed verdict gate",
   "author": {
     "name": "riekelt",
-    "email": "riekelt@riekelt.com",
+    "email": "r@kapitein.nl",
     "url": "https://github.com/riekelt"
   },
-  "homepage": "https://github.com/riekelt/multi-agent-review-cc",
-  "repository": "https://github.com/riekelt/multi-agent-review-cc",
+  "homepage": "https://github.com/riekelt/multi-agent-review",
+  "repository": "https://github.com/riekelt/multi-agent-review",
   "license": "MIT",
   "keywords": [
     "review",
@@ -39,7 +39,7 @@
       "Review my spec before we write the implementation plan.",
       "Run a multi-agent review on this plan before we start executing."
     ],
-    "websiteURL": "https://github.com/riekelt/multi-agent-review-cc",
+    "websiteURL": "https://github.com/riekelt/multi-agent-review",
     "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
     "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
     "brandColor": "#6366F1",

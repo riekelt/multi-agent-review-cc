@@ -1,20 +1,26 @@
 {
-  "name": "multi-agent-review-cc-marketplace",
-  "description": "Marketplace entry for multi-agent-review-cc",
+  "name": "multi-agent-review",
+  "description": "Multi-model consensus review for specs and plans before execution",
   "owner": {
     "name": "riekelt",
-    "email": "riekelt@riekelt.com"
+    "email": "r@kapitein.nl"
   },
   "plugins": [
     {
-      "name": "multi-agent-review-cc",
-      "description": "Multi-model consensus review for specs and plans — panels haiku + sonnet tiers per topic, opus juror on disagreements, fail-closed verdict gate",
-      "version": "1.0.0",
-      "source": "./",
+      "name": "multi-agent-review",
+      "description": "Panels haiku + sonnet reviewers across three topics, opus juror on disagreements, fail-closed verdict gate before plan execution",
+      "source": {
+        "source": "github",
+        "repo": "riekelt/multi-agent-review"
+      },
       "author": {
         "name": "riekelt",
-        "email": "riekelt@riekelt.com"
-      }
+        "email": "r@kapitein.nl"
+      },
+      "homepage": "https://github.com/riekelt/multi-agent-review",
+      "repository": "https://github.com/riekelt/multi-agent-review",
+      "license": "MIT",
+      "keywords": ["review", "multi-agent", "consensus", "quality-gate", "pre-execution"]
     }
   ]
 }
