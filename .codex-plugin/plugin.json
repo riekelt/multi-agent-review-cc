@@ -21,9 +21,9 @@
   ],
   "skills": "./skills/",
   "models": {
-    "fast": "gpt-4o-mini",
-    "standard": "gpt-4o",
-    "reasoning": "o1"
+    "fast": "gpt-4.1-nano",
+    "standard": "gpt-4.1",
+    "reasoning": "o3"
   },
   "interface": {
     "displayName": "Multi-Agent Review",
