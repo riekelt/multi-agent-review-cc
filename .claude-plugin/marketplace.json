@@ -1,0 +1,20 @@
+{
+  "name": "multi-agent-review-cc-marketplace",
+  "description": "Marketplace entry for multi-agent-review-cc",
+  "owner": {
+    "name": "riekelt",
+    "email": "riekelt@riekelt.com"
+  },
+  "plugins": [
+    {
+      "name": "multi-agent-review-cc",
+      "description": "Multi-model consensus review for specs and plans — panels haiku + sonnet tiers per topic, opus juror on disagreements, fail-closed verdict gate",
+      "version": "1.0.0",
+      "source": "./",
+      "author": {
+        "name": "riekelt",
+        "email": "riekelt@riekelt.com"
+      }
+    }
+  ]
+}

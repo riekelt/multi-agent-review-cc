@@ -1,8 +1,26 @@
 # multi-agent-review-cc
 
-A Claude Code skill that panels six independent review agents across three topics before you execute a plan or finish a spec. When model tiers disagree, an opus juror adjudicates. The result is a gated **Blockers / Warnings / Observations** verdict.
+A Claude Code / Codex skill that panels six independent review agents across three topics before you execute a plan or finish a spec. When model tiers disagree, an opus juror adjudicates. The result is a gated **Blockers / Warnings / Observations** verdict.
 
-## What it does
+## Install
+
+### Via plugin manager (Claude Code / Codex)
+
+Add the plugin in your agent settings:
+```
+https://github.com/riekelt/multi-agent-review-cc
+```
+
+### Manual (Claude Code)
+
+```bash
+git clone https://github.com/riekelt/multi-agent-review-cc \
+  ~/.claude/plugins/multi-agent-review-cc
+```
+
+The skill is immediately available as `/multi-agent-review`.
+
+## Usage
 
 ```
 /multi-agent-review spec    # fires after brainstorming, before writing-plans
@@ -16,19 +34,9 @@ The verdict gates the next step:
 - **Warnings** → presents to operator (fix or accept and continue)
 - **Clean** → auto-proceeds to next skill
 
-## Install
-
-Copy the skill files into `~/.claude/skills/multi-agent-review/`:
-
-```bash
-git clone https://github.com/riekelt/multi-agent-review-cc ~/.claude/skills/multi-agent-review
-```
-
-The skill is immediately available as `/multi-agent-review` in any Claude Code session.
-
 ## Project-specific rules
 
-Copy `project-rules.example.md` to your project root as `project-rules.md` and customise it. The skill injects it into the alignment and risk reviewers. Without it, only generic checks run.
+Copy `skills/multi-agent-review/project-rules.example.md` to your project root as `project-rules.md` and customise it. The skill injects it into the alignment and risk reviewers as project context. Without it, only generic checks run.
 
 ## Flags
 
@@ -47,13 +55,33 @@ The skill is designed to fail closed:
 | Juror error/timeout | Conservative fallback — all contested findings → BLOCKER |
 | All agents fail | Halt — empty panel never triggers clean verdict |
 
-## Files
+## Repository layout
 
-| File | Purpose |
-|---|---|
-| `SKILL.md` | Coordinator: locates artifact, dispatches agents, compares, invokes juror, decision gate |
-| `completeness-reviewer.md` | Agent prompt: TBDs, missing criteria, undefined references |
-| `alignment-reviewer.md` | Agent prompt: mockup consistency, standing rules, type contracts |
-| `risk-reviewer.md` | Agent prompt: production safety, fail-closed paths, blast radius |
-| `synthesis-agent.md` | Opus juror prompt: rules on contested findings only |
-| `project-rules.example.md` | Template for project-specific standing rules |
+```
+.claude-plugin/
+  plugin.json          Claude Code marketplace metadata
+  marketplace.json     Marketplace listing
+
+.codex-plugin/
+  plugin.json          Codex marketplace metadata (includes full interface block)
+
+skills/
+  multi-agent-review/
+    SKILL.md                     Coordinator: locates artifact, dispatches agents,
+                                 compares, invokes juror, decision gate
+    completeness-reviewer.md     Agent prompt: TBDs, missing criteria, undefined refs
+    alignment-reviewer.md        Agent prompt: mockup consistency, standing rules, type contracts
+    risk-reviewer.md             Agent prompt: production safety, fail-closed paths, blast radius
+    synthesis-agent.md           Opus juror prompt: rules on contested findings only
+    project-rules.example.md     Template for project-specific standing rules
+
+README.md
+```
+
+## Platform compatibility
+
+The skill content (SKILL.md + companions) is plain markdown describing intent — it works on both Claude Code and Codex. The `.claude-plugin/` and `.codex-plugin/` directories carry platform-specific discovery metadata; the skill logic itself is identical.
+
+## License
+
+MIT

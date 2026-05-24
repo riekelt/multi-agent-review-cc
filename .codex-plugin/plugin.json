@@ -1,0 +1,45 @@
+{
+  "name": "multi-agent-review-cc",
+  "version": "1.0.0",
+  "description": "Multi-model consensus review for specs and plans — panels haiku + sonnet tiers per topic, opus juror on disagreements, fail-closed verdict gate",
+  "author": {
+    "name": "riekelt",
+    "email": "riekelt@riekelt.com",
+    "url": "https://github.com/riekelt"
+  },
+  "homepage": "https://github.com/riekelt/multi-agent-review-cc",
+  "repository": "https://github.com/riekelt/multi-agent-review-cc",
+  "license": "MIT",
+  "keywords": [
+    "review",
+    "multi-agent",
+    "consensus",
+    "spec-review",
+    "plan-review",
+    "quality-gate",
+    "pre-execution"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Multi-Agent Review",
+    "shortDescription": "Panel six reviewers across three topics, let an opus juror settle disagreements, get a gated verdict before you execute.",
+    "longDescription": "Run a multi-model review panel on a spec or plan before execution begins. Haiku and sonnet tiers each review completeness, alignment, and risk in parallel. When tiers disagree, a single opus juror adjudicates. The skill is fail-closed: a dead juror promotes all contested findings to BLOCKER; fewer than 3 valid reports halts the review entirely. Use /multi-agent-review spec before writing-plans, and /multi-agent-review plan before subagent-driven-development.",
+    "developerName": "riekelt",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Review my spec before we write the implementation plan.",
+      "Run a multi-agent review on this plan before we start executing."
+    ],
+    "websiteURL": "https://github.com/riekelt/multi-agent-review-cc",
+    "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
+    "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",
+    "brandColor": "#6366F1",
+    "composerIcon": "",
+    "logo": "",
+    "screenshots": []
+  }
+}
