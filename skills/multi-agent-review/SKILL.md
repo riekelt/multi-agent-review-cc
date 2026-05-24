@@ -275,7 +275,7 @@ Default Claude Code values shown; Codex and other platforms override via their o
 |---|---|---|---|
 | `FAST_TIER` | `haiku` | `gpt-4.1-nano` | Fast reviewer (always used) |
 | `STANDARD_TIER` | `sonnet` | `gpt-4.1` | Standard reviewer (skipped with `--fast`) |
-| `REASONING_TIER` | `opus` | `o3` | Juror (not overridable — defeats purpose) |
+| `REASONING_TIER` | `opus` | `o4-mini` | Juror (not overridable — defeats purpose) |
 
 ## What this skill does NOT do
 

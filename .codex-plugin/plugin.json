@@ -23,7 +23,7 @@
   "models": {
     "fast": "gpt-4.1-nano",
     "standard": "gpt-4.1",
-    "reasoning": "o3"
+    "reasoning": "o4-mini"
   },
   "interface": {
     "displayName": "Multi-Agent Review",
