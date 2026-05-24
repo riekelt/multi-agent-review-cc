@@ -1,3 +1,7 @@
 # Internal planning artefacts — not part of the published skill
 skills/multi-agent-review/design.md
 skills/multi-agent-review/implementation-plan.md
+
+# Node
+node_modules/
+.tmp.json
