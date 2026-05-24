@@ -20,7 +20,14 @@
       "homepage": "https://github.com/riekelt/multi-agent-review",
       "repository": "https://github.com/riekelt/multi-agent-review",
       "license": "MIT",
-      "keywords": ["review", "multi-agent", "consensus", "quality-gate", "pre-execution"]
+      "keywords": [
+        "review",
+        "multi-agent",
+        "consensus",
+        "quality-gate",
+        "pre-execution"
+      ],
+      "version": "1.0.0"
     }
   ]
 }
