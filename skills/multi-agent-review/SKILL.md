@@ -55,7 +55,18 @@ Also find the linked spec: read the plan file, look for a `Spec:` header line or
 
 Read the **full** artifact content verbatim. **Never truncate or summarise any part of the artifact before passing it to agents** — an agent that receives an abbreviated spec will flag missing sections as BLOCKERs, producing false positives that poison the verdict. If the file is large, read it in chunks but assemble the full text before building prompts.
 
-### Step 3 — Read companion prompt files and project rules
+### Step 3 — Resolve model tiers, read companion files, read project rules
+
+**Model tier resolution:**
+
+Read the `"models"` object from the active plugin manifest:
+- Claude Code: `.claude-plugin/plugin.json`
+- Codex: `.codex-plugin/plugin.json`
+- Fallback (no manifest): `{ "fast": "haiku", "standard": "sonnet", "reasoning": "opus" }`
+
+Store three variables — `FAST_TIER`, `STANDARD_TIER`, `REASONING_TIER` — from `models.fast`, `models.standard`, `models.reasoning` respectively. Use these in Step 5 and Step 7 instead of hardcoded model names.
+
+**Read companion prompt files:**
 
 Read these four files from the same directory as this SKILL.md:
 - `completeness-reviewer.md`
@@ -86,15 +97,17 @@ For each of the three topic prompts (completeness, alignment, risk):
 Send all six in a **single message** with parallel Agent tool calls:
 
 ```
-Agent(completeness-haiku):  model=haiku,  prompt=completeness_prompt
-Agent(completeness-sonnet): model=sonnet, prompt=completeness_prompt
-Agent(alignment-haiku):     model=haiku,  prompt=alignment_prompt
-Agent(alignment-sonnet):    model=sonnet, prompt=alignment_prompt
-Agent(risk-haiku):          model=haiku,  prompt=risk_prompt
-Agent(risk-sonnet):         model=sonnet, prompt=risk_prompt
+Agent(completeness-fast):     model=FAST_TIER,     prompt=completeness_prompt
+Agent(completeness-standard): model=STANDARD_TIER, prompt=completeness_prompt
+Agent(alignment-fast):        model=FAST_TIER,     prompt=alignment_prompt
+Agent(alignment-standard):    model=STANDARD_TIER, prompt=alignment_prompt
+Agent(risk-fast):             model=FAST_TIER,     prompt=risk_prompt
+Agent(risk-standard):         model=STANDARD_TIER, prompt=risk_prompt
 ```
 
-If `--fast` was passed: dispatch only the three haiku agents and skip to Step 7.
+(Substitute `FAST_TIER` / `STANDARD_TIER` with the actual model IDs resolved in Step 3.)
+
+If `--fast` was passed: dispatch only the three `FAST_TIER` agents and skip to Step 7.
 
 ⚠ **--fast safety note:** In `--fast` mode, contested findings between haiku reviewers are NEVER adjudicated by the juror. Do NOT use `--fast` on a plan that touches trading paths or production-safety-critical features. Reserve `--fast` for lightweight non-safety specs (tooling, docs, UI copy).
 
@@ -126,7 +139,7 @@ If `CONTESTED_LIST` has entries:
 1. Build the juror prompt from `synthesis-agent.md`:
    - Replace `[ALL_SIX_REPORTS]` with the concatenated raw text of all six reports
    - Replace `[CONTESTED_LIST]` with the contested list built in Step 6
-2. Dispatch a single juror agent: `model=opus`
+2. Dispatch a single juror agent: `model=REASONING_TIER` (resolved in Step 3)
 3. Collect `JUROR RULINGS` response
 
 **Juror failure fallback:** If the juror agent errors, times out, or returns a malformed response (no `JUROR RULINGS:` line), do NOT proceed to Step 8. Instead: promote every contested finding to BLOCKER severity (conservative fallback) and present them to the operator as "JUROR FAILED — treating all contested findings as BLOCKER". This is fail-closed: a dead juror cannot let a contested BLOCKER silently degrade.
@@ -255,11 +268,14 @@ These rules govern what happens when the panel does not complete cleanly:
 
 ## Model assignments
 
-| Role | Model | Override |
-|---|---|---|
-| Fast-tier reviewer | `haiku` | Always used |
-| Standard-tier reviewer | `sonnet` | Skipped with `--fast` |
-| Juror | `opus` | Not overridable (defeats purpose) |
+Model IDs are resolved at runtime from the active plugin manifest's `"models"` field.
+Default Claude Code values shown; Codex and other platforms override via their own plugin.json.
+
+| Tier variable | CC default | Codex default | Role |
+|---|---|---|---|
+| `FAST_TIER` | `haiku` | `gpt-4o-mini` | Fast reviewer (always used) |
+| `STANDARD_TIER` | `sonnet` | `gpt-4o` | Standard reviewer (skipped with `--fast`) |
+| `REASONING_TIER` | `opus` | `o1` | Juror (not overridable — defeats purpose) |
 
 ## What this skill does NOT do
 

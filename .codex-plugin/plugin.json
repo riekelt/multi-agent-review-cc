@@ -20,6 +20,11 @@
     "pre-execution"
   ],
   "skills": "./skills/",
+  "models": {
+    "fast": "gpt-4o-mini",
+    "standard": "gpt-4o",
+    "reasoning": "o1"
+  },
   "interface": {
     "displayName": "Multi-Agent Review",
     "shortDescription": "Panel six reviewers across three topics, let an opus juror settle disagreements, get a gated verdict before you execute.",
