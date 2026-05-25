@@ -1,6 +1,6 @@
 {
   "name": "multi-agent-review",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Multi-model consensus review for specs and plans — panels haiku + sonnet tiers per topic, opus juror on disagreements, fail-closed verdict gate",
   "author": {
     "name": "riekelt",
