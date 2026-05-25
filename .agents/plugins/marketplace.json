@@ -1,0 +1,20 @@
+{
+  "name": "multi-agent-review",
+  "interface": {
+    "displayName": "Multi-Agent Review"
+  },
+  "plugins": [
+    {
+      "name": "multi-agent-review",
+      "source": {
+        "source": "local",
+        "path": "./plugins/multi-agent-review"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    }
+  ]
+}

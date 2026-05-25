@@ -59,12 +59,21 @@ Read the **full** artifact content verbatim. **Never truncate or summarise any p
 
 **Model tier resolution:**
 
-Read the `"models"` object from the active plugin manifest:
-- Claude Code: `.claude-plugin/plugin.json`
-- Codex: `.codex-plugin/plugin.json`
-- Fallback (no manifest): `{ "fast": "haiku", "standard": "sonnet", "reasoning": "opus" }`
+Locate the plugin manifest (do NOT use a bare `.claude-plugin/plugin.json` relative path — that resolves against the user's project, not the plugin install). Try in order until one succeeds:
 
-Store three variables — `FAST_TIER`, `STANDARD_TIER`, `REASONING_TIER` — from `models.fast`, `models.standard`, `models.reasoning` respectively. Use these in Step 5 and Step 7 instead of hardcoded model names.
+1. `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json` — Claude Code / Cursor
+2. `${CLAUDE_PLUGIN_ROOT}/.codex-plugin/plugin.json` — Codex if it sets this var
+3. `<dir of this SKILL.md>/../../.claude-plugin/plugin.json` — walk up two levels
+4. `<dir of this SKILL.md>/../../.codex-plugin/plugin.json` — same fallback for Codex
+5. Hardcoded fallback: `{ "fast": "haiku", "standard": "sonnet", "reasoning": "opus" }`
+
+Quick bash to try options 1-2:
+```bash
+[ -n "$CLAUDE_PLUGIN_ROOT" ] && cat "$CLAUDE_PLUGIN_ROOT/.claude-plugin/plugin.json" 2>/dev/null \
+  || cat "$CLAUDE_PLUGIN_ROOT/.codex-plugin/plugin.json" 2>/dev/null
+```
+
+Read the `"models"` object from the first manifest that loads. Store `FAST_TIER`, `STANDARD_TIER`, `REASONING_TIER` from `models.fast`, `models.standard`, `models.reasoning`. Use these in Step 5 and Step 7 — never hardcode model names.
 
 **Read companion prompt files:**
 
@@ -285,9 +294,10 @@ Default Claude Code values shown; Codex and other platforms override via their o
 
 ## Companion files in this directory
 
-- `completeness-reviewer.md` — checks for placeholders, missing criteria, undefined refs
-- `alignment-reviewer.md` — checks against mockups, codebase conventions, standing rules
-- `risk-reviewer.md` — checks for production safety, fail-closed paths, blast radius
-- `synthesis-agent.md` — opus juror prompt, only dispatched on contested findings
+- `completeness-reviewer.md` — placeholders, missing criteria, undefined refs
+- `alignment-reviewer.md` — mockup/codebase consistency, standing rules
+- `risk-reviewer.md` — production safety, fail-closed paths
+- `synthesis-agent.md` — juror prompt, only dispatched on contested findings
+- `project-rules.example.md` — template to copy into your project as `project-rules.md`
 - `design.md` — original design spec for this skill
 - `implementation-plan.md` — original implementation plan for this skill

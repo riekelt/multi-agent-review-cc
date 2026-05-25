@@ -8,26 +8,8 @@
   "plugins": [
     {
       "name": "multi-agent-review",
-      "description": "Panels haiku + sonnet reviewers across three topics, opus juror on disagreements, fail-closed verdict gate before plan execution",
-      "source": {
-        "source": "github",
-        "repo": "riekelt/multi-agent-review"
-      },
-      "author": {
-        "name": "riekelt",
-        "email": "r@kapitein.nl"
-      },
-      "homepage": "https://github.com/riekelt/multi-agent-review",
-      "repository": "https://github.com/riekelt/multi-agent-review",
-      "license": "MIT",
-      "keywords": [
-        "review",
-        "multi-agent",
-        "consensus",
-        "quality-gate",
-        "pre-execution"
-      ],
-      "version": "1.0.0"
+      "source": "./plugins/multi-agent-review",
+      "category": "Coding"
     }
   ]
 }
